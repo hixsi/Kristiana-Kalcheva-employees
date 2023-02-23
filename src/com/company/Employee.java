@@ -73,7 +73,7 @@ public class Employee {
                     }
 
                     daysTogether = (daysTogether + maxStartDate.until(minEndDate, ChronoUnit.DAYS)+1) - overlapDays;
-                    commonProjects.add(new CommonProjects(this,employee,startTogether,endTogether,daysTogether));
+                    commonProjects.add(new CommonProjects(this,employee,startTogether,endTogether,maxStartDate.until(minEndDate, ChronoUnit.DAYS)+1));
                 }
 
             }
