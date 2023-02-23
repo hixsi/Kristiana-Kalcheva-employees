@@ -39,12 +39,26 @@ public class Employee {
         projects.remove(project);
     }
 
-    public CommonProjects commonProjects(Employee employee){
-        long daysTogether=0;
 
-        List<CommonProjects> commonProjects = new ArrayList<>();
+
+    public static long getOverlappingDays(LocalDate start1, LocalDate end1, LocalDate start2, LocalDate end2) {
+
+
+        LocalDate startOverlap = start1.isBefore(start2) ? start2 : start1;
+        LocalDate endOverlap = end1.isBefore(end2) ? end1 : end2;
+
+        if (startOverlap.isAfter(endOverlap)) {
+            return 0;
+        }
+
+        return ChronoUnit.DAYS.between(startOverlap, endOverlap) + 1;
+    }
+
+    public long daysTogetherOnProjects(Employee employee, List<CommonProjects> commonProjects){
+        long daysTogether=0;
         LocalDate maxStartDate = LocalDate.MIN;
         LocalDate minEndDate = LocalDate.MAX;
+        long overlapDays = 0;
         for (EmployeeProject project : this.getProjects()) {
             for (EmployeeProject project1 : employee.getProjects()) {
                 if (project.getProject().equals(project1.getProject())) {
@@ -54,24 +68,18 @@ public class Employee {
                         maxStartDate = maxStartDate.isBefore(startTogether) ? startTogether : maxStartDate;
                         minEndDate = minEndDate.isAfter(endTogether) ? endTogether : minEndDate;
                     }
+                    for(CommonProjects commonProjects1: commonProjects){
+                        overlapDays += Employee.getOverlappingDays(commonProjects1.getStartDate(),commonProjects1.getEndDate(),startTogether,endTogether);
+                    }
+
+                    daysTogether = (daysTogether + maxStartDate.until(minEndDate, ChronoUnit.DAYS)+1) - overlapDays;
+                    commonProjects.add(new CommonProjects(this,employee,startTogether,endTogether,daysTogether));
                 }
 
             }
         }
-        daysTogether = maxStartDate.until(minEndDate, ChronoUnit.DAYS);
-//        commonProjects.add(new CommonProjects(this,employee,daysTogether));
 
-
-    return new CommonProjects(this,employee,daysTogether);
-    }
-
-    public long daysTogetherOnProjects(Employee employee, List<CommonProjects> commonProjects){
-
-
-       long totalDaysTogether = 0;
-       for(CommonProjects c: commonProjects)
-           totalDaysTogether += c.getDuration();
-       return totalDaysTogether;
+ return daysTogether;
     }
 
     @Override
