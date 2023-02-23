@@ -16,10 +16,8 @@ public class Main {
 
                 Employee employee = employeeList.get(i);
                 Employee employee1 = employeeList.get(j);
-//                List<CommonProjects> commonProjects = employee.commonProjects(employee1);
-//                commonProjects.stream().forEach(System.out::println);
-//                long daysTogether = employee.daysTogetherOnProjects(employee1,commonProjects);
-                long daysTogether = employee.commonProjects(employee1).getDuration();
+                List<CommonProjects> commonProjects = new ArrayList<>();
+                long daysTogether = employee.daysTogetherOnProjects(employee1,commonProjects);
 
 
                 if(maxDays < daysTogether){
@@ -36,7 +34,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String fileName = sc.next();
-        if (fileName.endsWith(".txt")) {
+        if (fileName.endsWith(".csv")) {
 
             List<Employee> employeeList = new ArrayList<>();
             List<Project> projectList = new ArrayList<>();
@@ -100,6 +98,7 @@ public class Main {
 
 
                 long maxDays = maxDaysTogetherEmployees(employeeList,employeesTogetherMax);
+                System.out.println(maxDays);
 
             }
 
