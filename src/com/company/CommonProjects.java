@@ -1,18 +1,21 @@
 package com.company;
 
+import java.time.LocalDate;
+
 public class CommonProjects implements Comparable<CommonProjects> {
     private Employee employee1;
     private Employee employee2;
-//    private Project project;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private long duration;
 
-    public CommonProjects(Employee employee1, Employee employee2, long duration) {
+    public CommonProjects(Employee employee1, Employee employee2, LocalDate startDate, LocalDate endDate, long duration) {
         this.employee1 = employee1;
         this.employee2 = employee2;
-//        this.project = project;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.duration = duration;
     }
-
 
     public Employee getEmployee1() {
         return employee1;
@@ -30,13 +33,21 @@ public class CommonProjects implements Comparable<CommonProjects> {
         this.employee2 = employee2;
     }
 
-//    public Project getProject() {
-//        return project;
-//    }
-//
-//    public void setProject(Project project) {
-//        this.project = project;
-//    }
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
 
     public long getDuration() {
         return duration;
@@ -56,7 +67,8 @@ public class CommonProjects implements Comparable<CommonProjects> {
         return "CommonProjects{" +
                 "employee1=" + employee1 +
                 ", employee2=" + employee2 +
-//                ", project=" + project +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 ", duration=" + duration +
                 '}';
     }
