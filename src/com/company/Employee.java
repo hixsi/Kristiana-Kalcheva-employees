@@ -56,24 +56,25 @@ public class Employee {
 
     public long daysTogetherOnProjects(Employee employee, List<CommonProjects> commonProjects){
         long daysTogether=0;
-        LocalDate maxStartDate = LocalDate.MIN;
-        LocalDate minEndDate = LocalDate.MAX;
+        LocalDate startTogether= LocalDate.now();
+        LocalDate endTogether= LocalDate.now();
         long overlapDays = 0;
         for (EmployeeProject project : this.getProjects()) {
             for (EmployeeProject project1 : employee.getProjects()) {
                 if (project.getProject().equals(project1.getProject())) {
-                    LocalDate startTogether = project.getStartDate().isAfter(project1.getStartDate()) ? project.getStartDate() : project1.getStartDate();
-                    LocalDate endTogether = project.getEndDate().isBefore(project1.getEndDate()) ? project.getEndDate() : project1.getEndDate();
-                    if (startTogether.isBefore(endTogether)) {
-                        maxStartDate = maxStartDate.isBefore(startTogether) ? startTogether : maxStartDate;
-                        minEndDate = minEndDate.isAfter(endTogether) ? endTogether : minEndDate;
-                    }
+                    startTogether = project.getStartDate().isAfter(project1.getStartDate()) ? project.getStartDate() : project1.getStartDate();
+                    endTogether = project.getEndDate().isBefore(project1.getEndDate()) ? project.getEndDate() : project1.getEndDate();
+
                     for(CommonProjects commonProjects1: commonProjects){
                         overlapDays += Employee.getOverlappingDays(commonProjects1.getStartDate(),commonProjects1.getEndDate(),startTogether,endTogether);
                     }
-
-                    daysTogether = (daysTogether + maxStartDate.until(minEndDate, ChronoUnit.DAYS)+1) - overlapDays;
-                    commonProjects.add(new CommonProjects(this,employee,startTogether,endTogether,maxStartDate.until(minEndDate, ChronoUnit.DAYS)+1));
+//                    System.out.println(this + "  " + employee);
+//                    System.out.println(startTogether + "  " + endTogether);
+//                    System.out.println(overlapDays);
+//                    System.out.println(startTogether.until(endTogether, ChronoUnit.DAYS)+1);
+                    daysTogether = (daysTogether + startTogether.until(endTogether, ChronoUnit.DAYS)+1) - overlapDays;
+//                    System.out.println(daysTogether);
+                    commonProjects.add(new CommonProjects(this,employee,startTogether,endTogether,startTogether.until(endTogether, ChronoUnit.DAYS)+1));
                 }
 
             }
