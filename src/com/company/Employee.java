@@ -64,18 +64,19 @@ public class Employee {
                 if (project.getProject().equals(project1.getProject())) {
                     startTogether = project.getStartDate().isAfter(project1.getStartDate()) ? project.getStartDate() : project1.getStartDate();
                     endTogether = project.getEndDate().isBefore(project1.getEndDate()) ? project.getEndDate() : project1.getEndDate();
-
+                    if(startTogether.isBefore(endTogether)){
                     for(CommonProjects commonProjects1: commonProjects){
                         overlapDays += Employee.getOverlappingDays(commonProjects1.getStartDate(),commonProjects1.getEndDate(),startTogether,endTogether);
                     }
 //                    System.out.println(this + "  " + employee);
 //                    System.out.println(startTogether + "  " + endTogether);
 //                    System.out.println(overlapDays);
+//                    System.out.println(daysTogether);
 //                    System.out.println(startTogether.until(endTogether, ChronoUnit.DAYS)+1);
                     daysTogether = (daysTogether + startTogether.until(endTogether, ChronoUnit.DAYS)+1) - overlapDays;
 //                    System.out.println(daysTogether);
                     commonProjects.add(new CommonProjects(this,employee,startTogether,endTogether,startTogether.until(endTogether, ChronoUnit.DAYS)+1));
-                }
+                }}
 
             }
         }
